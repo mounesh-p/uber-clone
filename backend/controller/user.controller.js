@@ -61,7 +61,7 @@ export const loginUser = async (req, res, next) => {
 export const getUserProfle = (req, res, next) => {
   console.log("object");
   // return user profile
-  return res.status(200).json(req.user);
+  return res.status(200).json({user: req.user});
 };
 
 export const logoutUser = async (req, res, next) => {
