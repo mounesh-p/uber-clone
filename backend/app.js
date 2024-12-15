@@ -5,6 +5,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import connectToDb from './db/db.js';
 import userRoutes from './route/user.routes.js';
+import captainRoutes from './route/captain.routes.js';
 
 connectToDb();
 
@@ -16,7 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
-app.use('/users',userRoutes)
+app.use('/users',userRoutes);
+app.use('/captains',captainRoutes);
 
 app.get('/',(req, res) =>{
     res.send('Hello World')

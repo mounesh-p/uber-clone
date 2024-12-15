@@ -154,3 +154,65 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
   "message": "Logged out"
 }
 ```
+
+## Captain Registration Endpoint
+
+### Endpoint
+`POST /captain/register`
+
+### Description
+This endpoint allows a new captain to register by providing their email, first name, last name, password, and vehicle details. Upon successful registration, a captain object is created in the database.
+
+### Request Body
+The request body must be in JSON format and should include the following fields:
+
+- `email` (string, required): The email address of the captain. It must be a valid email format.
+- `fullname` (object, required): An object containing the captain's name.
+  - `firstname` (string, required): The first name of the captain. It must be at least 3 characters long.
+  - `lastname` (string, optional): The last name of the captain. It must be at least 3 characters long if provided.
+- `password` (string, required): The password for the captain account. It must be at least 6 characters long.
+- `vehicle` (object, required): An object containing the vehicle details.
+  - `color` (string, required): The color of the vehicle. It must be at least 3 characters long.
+  - `plate` (string, required): The vehicle's plate number. It must be at least 3 characters long.
+  - `capacity` (integer, required): The capacity of the vehicle. It must be an integer greater than or equal to 1.
+  - `vehicleType` (string, required): The type of vehicle. It must be one of the following: `car`, `motorcycle`, or `auto`.
+
+### Example Request
+```json
+{
+  "email": "captain@example.com",
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Doe"
+  },
+  "password": "securepassword",
+  "vehicle": {
+    "color": "red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+### Example Response
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzVlZDc0YzRmYWI5MWZlMmUyZTk0MmMiLCJpYXQiOjE3MzQyNjg3NDksImV4cCI6MTczNDM1NTE0OX0.bUzn5OTUXsSc_HD4C_WBh92Xb79raRtIDSluxiUnhFg",
+    "captain": {
+        "fullname": {
+            "firstname": "ganesh",
+            "lastname": "pattar"
+        },
+        "email": "gani@gmail.com",
+        "status": "inactive",
+        "vehicle": {
+            "color": "red",
+            "plate": "KA 22 XY 6221",
+            "capacity": 3,
+            "vehicleType": "car"
+        },
+        "_id": "675ed74c4fab91fe2e2e942c",
+        "__v": 0
+    }
+}
+```
