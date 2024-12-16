@@ -1,17 +1,85 @@
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const Home = () => {
-    return (
-        <div>
-            <div className="bg-cover bg-center bg-[url(https://plus.unsplash.com/premium_photo-1731842686156-74895c29a87b?q=80&w=1286&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)] h-screen pt-9 flex justify-between flex-col w-full">
-                <img className="w-16 ml-8" src="https://th.bing.com/th/id/R.ee430489d1505483166c19ab9ed00d4e?rik=TR8JYzS1MJsqxg&riu=http%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f4%2fUber-Logo-PNG-Free-Image.png&ehk=RkArudRupF3ki6m0KJJ67MImDo65xcs3upha4JAEOME%3d&risl=&pid=ImgRaw&r=0" alt="dd" />
-                <div className="bg-white pb-7 py-4 px-4">
-                    <h2 className="text-[30px] font-bold">Get started with Uber</h2>
-                    <Link to={"/login"} className="flex items-center justify-center w-full bg-black text-white py-3 rounded-lg mt-5">Continue</Link>
-                </div>
-            </div>
+  const [pickup, setPickup] = useState("");
+  const [destination, setDestination] = useState("");
+  const [panelOpen, setPanelOpen] = useState(false);
+  const panelRef = useRef(null);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+  };
+
+  useGSAP(
+    function () {
+      if (panelOpen) {
+        gsap.to(panelRef.current, {
+          height: "70%",
+        });
+      } else {
+        gsap.to(panelRef.current, {
+          height: "0%",
+        });
+      }
+    },
+    [panelOpen]
+  );
+  return (
+    <div className="h-screen relative">
+      <img
+        className="w-16 absolute left-5 top-5"
+        src="https://logospng.org/download/uber/logo-uber-1024.png"
+        alt="dd"
+      />
+      <div className="h-screen w-screen">
+        {/* Temporary image use */}
+        <img
+          className="h-full w-full object-cover"
+          src="https://th.bing.com/th/id/OIP.VJpMhXBsme4wZZpb9IgzhgHaJs?w=740&h=968&rs=1&pid=ImgDetMain"
+          alt=""
+        />
+      </div>
+      <div className="flex flex-col justify-end h-screen absolute top-0 w-full">
+        <div className="h-[30%] p-6 bg-white relative">
+          <h4 className="text-2xl font-semibold">Find a trip</h4>
+          <form
+            onSubmit={(e) => {
+              submitHandler(e);
+            }}
+          >
+            <div className="line absolute h-16 w-1 left-10 top-[45%] bg-gray-900 rounded-full"></div>
+            <input
+              onClick={() => {
+                setPanelOpen(true);
+              }}
+              value={pickup}
+              onChange={(e) => {
+                setPickup(e.target.value);
+              }}
+              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
+              type="text"
+              placeholder="Add a pick-up location"
+            />
+            <input
+              onClick={() => {
+                setPanelOpen(true);
+              }}
+              value={destination}
+              onChange={(e) => {
+                setDestination(e.target.value);
+              }}
+              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
+              type="text"
+              placeholder="Enter your destination"
+            />
+          </form>
         </div>
-    );
-}
+        <div ref={panelRef} className="h-[70%] bg-red-500 h-0"></div>
+      </div>
+    </div>
+  );
+};
 
 export default Home;
