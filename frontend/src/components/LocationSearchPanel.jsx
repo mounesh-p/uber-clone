@@ -1,0 +1,30 @@
+const LocationSearchPanel = ({setPanelOpen, setVehiclePanelOpen}) => {
+  const location = [
+    "24B, Near Kapoor's cafe, sheriyan Coding sschool, bhopal",
+    "11B, Near Malhotra's cafe, sheriyan Coding sschool, bhopal",
+    "15B, Near Kapoor's cafe, sheriyan Coding sschool, bhopal",
+    "36C, Near Kapoor's cafe, sheriyan Coding sschool, bhopal",
+  ];
+  return (
+    <div>
+      {location.map((item, index)=>{
+        return (
+          <div onClick={()=>{
+            setVehiclePanelOpen(true);
+            setPanelOpen(false)
+          }} key={index} className="flex items-center justify-start gap-4 my-4 border-2 p-3 rounded-xl border-gray-50 active:border-black">
+          <h2 className="bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full">
+            <i className="ri-map-pin-fill"></i>
+          </h2>
+          <h4 className="font-medium">
+            {item}
+          </h4>
+        </div>
+        )
+      })}
+  
+    </div>
+  );
+};
+
+export default LocationSearchPanel;
