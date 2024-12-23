@@ -4,15 +4,27 @@ import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
 import LocationSearchPanel from "../components/LocationSearchPanel";
 import VehiclePanel from "../components/VehiclePanel";
+import ConfirmRide from "../components/ConfirmRide";
+import LookingForDriver from "../components/LookingForDriver";
+import WaitingForDriver from "../components/WaitingForDriver";
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
   const [destination, setDestination] = useState("");
   const [panelOpen, setPanelOpen] = useState(false);
+
   const panelRef = useRef(null);
   const vehiclePanelRef = useRef(null);
   const panelCloseRef = useRef(null);
+  const confirmRidePanelRef = useRef(null);
+  const vehicleFoundRef = useRef(null);
+  const waitingForDriverRef = useRef(null);
+
   const [vehiclePanelOpen, setVehiclePanelOpen] = useState(false);
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false);
+
+  const [vehicleFound, setVehicleFound] = useState(false);
+  const [waitingForDriver, setWaitingForDriver] = useState(false);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -57,6 +69,48 @@ const Home = () => {
     },
     [vehiclePanelOpen]
   );
+  useGSAP(
+    function () {
+      if (confirmRidePanel) {
+        gsap.to(confirmRidePanelRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(confirmRidePanelRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [confirmRidePanel]
+  );
+  useGSAP(
+    function () {
+      if (vehicleFound) {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(vehicleFoundRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [vehicleFound]
+  );
+  useGSAP(
+    function () {
+      if (waitingForDriver) {
+        gsap.to(waitingForDriverRef.current, {
+          transform: "translateY(0)",
+        });
+      } else {
+        gsap.to(waitingForDriverRef.current, {
+          transform: "translateY(100%)",
+        });
+      }
+    },
+    [waitingForDriver]
+  );
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -99,7 +153,7 @@ const Home = () => {
               onChange={(e) => {
                 setPickup(e.target.value);
               }}
-              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
+              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3 focus:outline-black"
               type="text"
               placeholder="Add a pick-up location"
             />
@@ -111,7 +165,7 @@ const Home = () => {
               onChange={(e) => {
                 setDestination(e.target.value);
               }}
-              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3"
+              className="bg-[#eee] px-12 py-2 text-lg rounded-lg w-full mt-3 focus:outline-black"
               type="text"
               placeholder="Enter your destination"
             />
@@ -129,7 +183,23 @@ const Home = () => {
         ref={vehiclePanelRef}
         className="fixed bottom-0 z-10 w-full translate-y-full px-3 py-8 bg-white pt-14"
       >
-        <VehiclePanel setVehiclePanelOpen={setVehiclePanelOpen} />
+        <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanelOpen={setVehiclePanelOpen} />
+      </div>
+      <div
+        ref={confirmRidePanelRef}
+        className="fixed bottom-0 z-10 w-full translate-y-full px-3 py-6 bg-white pt-14"
+      >
+        <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+      </div>
+      <div ref={vehicleFoundRef}
+        className="fixed bottom-0 z-10 w-full translate-y-full px-3 py-6 bg-white pt-14"
+      >
+        <LookingForDriver setVehicleFound={setVehicleFound} />
+      </div>
+      <div ref={waitingForDriverRef}
+        className="fixed bottom-0 z-10 w-full  px-3 py-6 bg-white pt-14"
+      >
+        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
       </div>
     </div>
   );
