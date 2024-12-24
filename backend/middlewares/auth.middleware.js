@@ -14,6 +14,8 @@ export const authUserMiddleware = async (req, res, next) => {
     if(isBlackList){
         return res.status(401).json({message: 'Unauthorized'});
     }
+    console.log("object", token , process.env.JWT_SECRETE);
+
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRETE);
         const user = await userModel.findById(decoded._id);
@@ -38,12 +40,15 @@ export const authCaptainMiddleware = async (req, res, next) => {
     if(isBlackList){
         return res.status(401).json({message: 'Unauthorized 2'});
     }
+    console.log("d",process.env.JWT_SECRETE);
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRETE);
+
         const captain = await captainModel.findById(decoded._id);
         req.captain = captain;
         next();
     } catch(err){
+        console.log(err);
         return res.status(401).json({message: 'Unauthorized 3'});
     }
 
