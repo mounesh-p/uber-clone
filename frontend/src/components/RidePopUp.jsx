@@ -1,27 +1,28 @@
 import React from "react";
 
-const WaitingForDriver = (props) => {
+const RidePopUp = (props) => {
   return (
     <div>
       <h5
         className="p-1 text-center absolute top-0 w-[93%]"
         onClick={() => {
-          props.setWaitingForDriver(false);
+          props.setRidePopUpPanel(false);
         }}
       >
         <i className="text-3xl text-gray-200 ri-arrow-down-wide-line"></i>
       </h5>
-      <div className="flex items-center justify-between">
-        <img
-          src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
-          alt=""
-          className="h-10"
-        />
-        <div className="text-right'">
-          <h2 className="text-lg font-medium capitalize">Sarthak</h2>
-          <h4 className="text-xl font-semibold -mt-1 -mb-1">MP04 AB 1452</h4>
-          <p className="text-sm text-gray-600">Maruti Suzuki Alto</p>
+      <h3 className="text-2xl font-semibold">New Ride Available</h3>
+
+      <div className="flex items-center bg-yellow-400 rounded-lg p-3 justify-between mt-4">
+        <div className="flex items-center gap-3">
+          <img
+            className="h-12 rounded-full w-10 object-cover"
+            src="https://th.bing.com/th/id/OIP.VsPq9C74m_cHRWgbF_pevwAAAA?rs=1&pid=ImgDetMain"
+            alt=""
+          />
+          <h2 className="text-lg font-medium">Harsh Patel</h2>
         </div>
+        <h5 className="text-lg font-semibold">2.2 KM</h5>
       </div>
 
       <div className="flex gap-2 justify-between flex-col items-center">
@@ -52,9 +53,30 @@ const WaitingForDriver = (props) => {
             </div>
           </div>
         </div>
+        <div className="flex w-full items-center justify-between mt-5">
+        <button
+          onClick={() => {
+            props.setRidePopUpPanel(false);
+          }}
+          className=" mt-1 bg-gray-300 text-gray-700 font-semibold p-3 px-10 rounded-lg"
+        >
+          Ignore
+        </button>
+
+        <button
+          onClick={() => {
+            props.setConfirmRidePopUpPanel(true);
+          }}
+          className=" mt-1 bg-green-600 text-white font-semibold p-3 px-10 rounded-lg"
+        >
+          Accept
+        </button>
+        
+        </div>
+
       </div>
     </div>
   );
 };
 
-export default WaitingForDriver;
+export default RidePopUp;

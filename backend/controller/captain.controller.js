@@ -64,7 +64,6 @@ export const loginCaptain = async (req, res, next) => {
   };
   
   export const getCaptainProfle = (req, res, next) => {
-    console.log("object");
     // return user profile
     return res.status(200).json({ captain:req.captain });
   };
