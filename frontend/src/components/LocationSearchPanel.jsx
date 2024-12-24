@@ -1,18 +1,19 @@
-const LocationSearchPanel = ({setPanelOpen, setVehiclePanelOpen}) => {
-  const location = [
-    "24B, Near Kapoor's cafe, sheriyan Coding sschool, bhopal",
-    "11B, Near Malhotra's cafe, sheriyan Coding sschool, bhopal",
-    "15B, Near Kapoor's cafe, sheriyan Coding sschool, bhopal",
-    "36C, Near Kapoor's cafe, sheriyan Coding sschool, bhopal",
-  ];
+const LocationSearchPanel = ({suggestions, setVehiclePanel, setPanelOpen, setPickup, setDestination, activeField}) => {
+
+  const handleSuggestionClick = (suggestion) => {
+    if (activeField === 'pickup') {
+        setPickup(suggestion)
+    } else if (activeField === 'destination') {
+        setDestination(suggestion)
+    }
+    // setVehiclePanel(true)
+    // setPanelOpen(false)
+}
   return (
     <div>
-      {location.map((item, index)=>{
+      {suggestions.map((item, index)=>{
         return (
-          <div onClick={()=>{
-            setVehiclePanelOpen(true);
-            setPanelOpen(false)
-          }} key={index} className="flex items-center justify-start gap-4 my-4 border-2 p-3 rounded-xl border-gray-50 active:border-black">
+          <div onClick={() => handleSuggestionClick(item)} key={index} className="flex items-center justify-start gap-4 my-4 border-2 p-3 rounded-xl border-gray-50 active:border-black">
           <h2 className="bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full">
             <i className="ri-map-pin-fill"></i>
           </h2>
