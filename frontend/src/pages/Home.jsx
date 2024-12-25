@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import "remixicon/fonts/remixicon.css";
@@ -8,6 +8,10 @@ import ConfirmRide from "../components/ConfirmRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitingForDriver from "../components/WaitingForDriver";
 import axios from "axios";
+import { UserDataContext } from "../context/UserContext";
+import { SocketContext } from "../context/SocketContext";
+
+
 
 const Home = () => {
   const [pickup, setPickup] = useState("");
@@ -32,6 +36,14 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+
+
+  const { user } = useContext(UserDataContext);
+  const { socket } = useContext(SocketContext);
+  
+ useEffect(()=>{
+  socket.emit("join", { userType: "user", userId: user._id })
+ },[user])
 
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
@@ -295,7 +307,14 @@ const Home = () => {
         ref={vehicleFoundRef}
         className="fixed bottom-0 z-10 w-full translate-y-full px-3 py-6 bg-white pt-14"
       >
-        <LookingForDriver setVehicleFound={setVehicleFound} />
+        <LookingForDriver 
+          pickup={pickup}
+          destination={destination}
+          fare={fare}
+          vehicleType={vehicleType}
+          createRide={createRide}
+          setVehicleFound={setVehicleFound} 
+          />
       </div>
       <div
         ref={waitingForDriverRef}
