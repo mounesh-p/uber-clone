@@ -10,6 +10,8 @@ import WaitingForDriver from "../components/WaitingForDriver";
 import axios from "axios";
 import { UserDataContext } from "../context/UserContext";
 import { SocketContext } from "../context/SocketContext";
+import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 
 
@@ -36,14 +38,28 @@ const Home = () => {
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
-
+  const [ ride, setRide ] = useState(null)
 
   const { user } = useContext(UserDataContext);
   const { socket } = useContext(SocketContext);
   
+  const navigate = useNavigate();
+
  useEffect(()=>{
   socket.emit("join", { userType: "user", userId: user._id })
  },[user])
+
+ socket.on('ride-confirmed', ride => {
+  setVehicleFound(false)
+  setWaitingForDriver(true)
+  setRide(ride)
+})
+
+socket.on('ride-started', ride => {
+  console.log("ride")
+  setWaitingForDriver(false)
+  navigate('/riding', { state: { ride } }) // Updated navigate to include ride data
+})
 
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
@@ -179,7 +195,6 @@ const Home = () => {
         },
       }
     );
-    console.log(response.data);
     setFare(response.data);
   }
   async function createRide() {
@@ -196,7 +211,6 @@ const Home = () => {
         },
       }
     );
-    console.log(response.data);
   }
 
   return (
@@ -208,11 +222,12 @@ const Home = () => {
       />
       <div className="w-screen h-screen">
         {/* Temporary image use */}
-        <img
+        <LiveTracking />
+        {/* <img
           className="object-cover w-full h-full"
           src="https://th.bing.com/th/id/OIP.VJpMhXBsme4wZZpb9IgzhgHaJs?w=740&h=968&rs=1&pid=ImgDetMain"
           alt=""
-        />
+        /> */}
       </div>
       <div className="absolute top-0 flex flex-col justify-end w-full h-screen">
         <div className="h-[30%] p-6 bg-white relative">
@@ -227,6 +242,7 @@ const Home = () => {
           </h5>
           <h4 className="text-2xl font-semibold">Find a trip</h4>
           <form
+           className='relative py-3' 
             onSubmit={(e) => {
               submitHandler(e);
             }}
@@ -257,7 +273,7 @@ const Home = () => {
           </form>
           <button
             onClick={findTrip}
-            className="bg-black font-semibold text-white px-4 py-2 rounded-lg mt-3 w-full"
+            className="w-full px-4 py-2 mt-3 font-semibold text-white bg-black rounded-lg"
           >
             Find Trip
           </button>
@@ -280,7 +296,7 @@ const Home = () => {
 
       <div
         ref={vehiclePanelRef}
-        className="fixed bottom-0 z-10 w-full translate-y-full px-3 py-8 bg-white pt-14"
+        className="fixed bottom-0 z-10 w-full px-3 py-8 pt-12 translate-y-full bg-white"
       >
         <VehiclePanel
           selectVehicle={setVehicleType}
@@ -291,7 +307,7 @@ const Home = () => {
       </div>
       <div
         ref={confirmRidePanelRef}
-        className="fixed bottom-0 z-10 w-full translate-y-full px-3 py-6 bg-white pt-14"
+        className="fixed bottom-0 z-10 w-full px-3 py-6 pt-12 translate-y-full bg-white"
       >
         <ConfirmRide
           pickup={pickup}
@@ -305,7 +321,7 @@ const Home = () => {
       </div>
       <div
         ref={vehicleFoundRef}
-        className="fixed bottom-0 z-10 w-full translate-y-full px-3 py-6 bg-white pt-14"
+        className="fixed bottom-0 z-10 w-full px-3 py-6 pt-12 translate-y-full bg-white"
       >
         <LookingForDriver 
           pickup={pickup}
@@ -318,9 +334,12 @@ const Home = () => {
       </div>
       <div
         ref={waitingForDriverRef}
-        className="fixed bottom-0 z-10 w-full  px-3 py-6 bg-white pt-14"
+        className="fixed bottom-0 z-10 w-full px-3 py-6 pt-12 translate-y-full bg-white"
       >
-        <WaitingForDriver setWaitingForDriver={setWaitingForDriver} />
+        <WaitingForDriver
+         ride={ride}
+         setWaitingForDriver={setWaitingForDriver} 
+         />
       </div>
     </div>
   );

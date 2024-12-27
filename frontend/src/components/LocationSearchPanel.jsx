@@ -1,4 +1,4 @@
-const LocationSearchPanel = ({suggestions, setVehiclePanel, setPanelOpen, setPickup, setDestination, activeField}) => {
+const LocationSearchPanel = ({suggestions, setPickup, setDestination, activeField}) => {
 
   const handleSuggestionClick = (suggestion) => {
     if (activeField === 'pickup') {
@@ -6,14 +6,12 @@ const LocationSearchPanel = ({suggestions, setVehiclePanel, setPanelOpen, setPic
     } else if (activeField === 'destination') {
         setDestination(suggestion)
     }
-    // setVehiclePanel(true)
-    // setPanelOpen(false)
 }
   return (
     <div>
       {suggestions.map((item, index)=>{
         return (
-          <div onClick={() => handleSuggestionClick(item)} key={index} className="flex items-center justify-start gap-4 my-4 border-2 p-3 rounded-xl border-gray-50 active:border-black">
+          <div onClick={() => handleSuggestionClick(item)} key={index} className="flex items-center justify-start gap-4 p-3 my-4 border-2 rounded-xl border-gray-50 active:border-black">
           <h2 className="bg-[#eee] h-8 flex items-center justify-center w-12 rounded-full">
             <i className="ri-map-pin-fill"></i>
           </h2>

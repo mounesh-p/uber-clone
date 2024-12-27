@@ -1,4 +1,3 @@
-import React from "react";
 
 const LookingForDriver = (props) => {
   return (
@@ -13,7 +12,7 @@ const LookingForDriver = (props) => {
       </h5>
       <h3 className="mb-5 text-2xl font-semibold">Looking for a Driver</h3>
 
-      <div className="flex gap-2 justify-between flex-col items-center">
+      <div className="flex flex-col items-center justify-between gap-2">
         <img
           src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
           alt=""
@@ -25,7 +24,7 @@ const LookingForDriver = (props) => {
             <i className="ri-map-pin-user-fill"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">
+              <p className="-mt-1 text-sm text-gray-600">
                 {props.pickup}
               </p>
             </div>
@@ -34,7 +33,7 @@ const LookingForDriver = (props) => {
             <i className="text-lg ri-map-pin-2-fill"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm -mt-1 text-gray-600">
+              <p className="-mt-1 text-sm text-gray-600">
               {props.destination}
               </p>
             </div>
@@ -43,7 +42,7 @@ const LookingForDriver = (props) => {
             <i className="ri-currency-line"></i>
             <div>
               <h3 className="text-lg font-medium">₹ {props.fare[props.vehicleType]}</h3>
-              <p className="text-sm -mt-1 text-gray-600">Cash Cash</p>
+              <p className="-mt-1 text-sm text-gray-600">Cash Cash</p>
             </div>
           </div>
         </div>

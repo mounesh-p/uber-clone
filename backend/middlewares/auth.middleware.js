@@ -49,5 +49,4 @@ export const authCaptainMiddleware = async (req, res, next) => {
         console.log(err);
         return res.status(401).json({message: 'Unauthorized 3'});
     }
-
 }
