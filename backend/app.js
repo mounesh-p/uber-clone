@@ -14,7 +14,7 @@ connectToDb();
 const app  = express();
 
 // Configure CORS
-const allowedOrigins = ['https://uber-clone-3tah.vercel.app'];
+const allowedOrigins = ['https://uber-clone-three-theta.vercel.app'];
 app.use(cors({
   origin: function(origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
